@@ -1,0 +1,47 @@
+PUNTO CERO  -  shooter tactico por rondas para PlayStation 2 (homebrew)
+
+VERSION CON SONIDO (v2)
+  Este paquete trae solo el codigo fuente. El .elf se compila con el comando de abajo
+  (o con GitHub Actions: sube todo a un repositorio y baja "punto-cero-elf" desde la pestana Actions).
+
+COMO EJECUTARLO
+  - PCSX2 (emulador): Sistema > Iniciar ELF... y elegir punto-cero.elf. Hace falta la BIOS de PS2.
+  - PS2 real: con uLaunchELF u OPL (Open PS2 Loader) desde USB, tarjeta de memoria o red.
+    Se necesita una consola con homebrew habilitado (FreeMcBoot, etc.).
+
+CONTROLES (DualShock 2, modo analogico)
+  Stick izquierdo   moverse           Stick derecho   apuntar
+  R2 o R1           disparar          Cuadrado        recargar
+  Cruz (X)          saltar            Circulo (mantener)  caminar lento (silencioso)
+  Triangulo         arma siguiente    L1 o L2         arma anterior
+  Start             pausa
+  Menus: Arriba/Abajo mover, X aceptar, Izq/Der cambiar valor, Circulo volver.
+
+CONFIGURACION (menu principal y pausa)
+  Dificultad, bots por ronda (1-8), rondas para ganar, sensibilidad,
+  campo de vision, invertir eje Y, color de la mira,
+  volumen de la musica (0-5) y volumen de los efectos (0-5).
+
+SONIDO (nuevo)
+  Todo se genera por codigo, no hay archivos de audio (src/audio.c).
+  Disparos distintos por arma, disparos enemigos (mas bajos cuanto mas lejos),
+  recarga, sin balas, cambio de arma, impacto, cabezazo, muerte del bot, dano que
+  recibis, pasos tuyos y de los bots, salto, aterrizaje, ronda ganada/perdida,
+  menus y musica de fondo (baja de volumen mientras jugas).
+  Si el audio no arranca, el juego sigue andando sin sonido.
+
+CAMBIOS DE ANIMACION (nuevo)
+  - Los bots mueven las piernas al caminar (una adelante y levantada, la otra atras)
+    y balancean el cuerpo y el brazo libre. Ya no se deslizan.
+  - Cada bot tiene una sombra en el piso, asi no parecen flotar.
+  - Si te movés en modo caminar lento (Circulo) no hacés ruido de pasos.
+
+LIMITACIONES
+  - La configuracion no se guarda al apagar (no usa tarjeta de memoria).
+
+COMPILAR TU PROPIA COPIA
+  Opcion Docker (sin instalar nada):
+    cd punto-cero-ps2
+    docker run --rm -v "$PWD":/src -w /src ps2dev/ps2dev:latest \
+      sh -c 'export GSKIT=$PS2DEV/gsKit; make clean; make'
+  Opcion toolchain local: instalar ps2dev, exportar PS2DEV, PS2SDK y GSKIT, y ejecutar make.
